@@ -1,0 +1,56 @@
+clc
+% Load the Excel file as a table and convert it to a numerical matrix
+T = readtable("F007_1750.xlsx");
+numericalValues = table2array(T); % Convert table to matrix
+
+% Basic Statistical Features (Column-wise)
+meanValues = mean(numericalValues); % Mean of each column
+stdValues = std(numericalValues); % Standard deviation of each column
+varValues = var(numericalValues); % Variance of each column
+medianValues = median(numericalValues); % Median of each column
+minValues = min(numericalValues); % Minimum of each column
+maxValues = max(numericalValues); % Maximum of each column
+skewnessValues = skewness(numericalValues); % Skewness of each column
+kurtosisValues = kurtosis(numericalValues); % Kurtosis of each column
+
+% Statistical Features (Row-wise)
+meanPerRow = mean(numericalValues, 2); % Mean for each row
+stdPerRow = std(numericalValues, 0, 2); % Std deviation for each row
+
+% Select one column (vibration data from one sensor)
+signal = numericalValues(:, 1);
+t = 1:length(signal); % Time axis
+
+% Plot the raw vibration signal
+figure;
+plot(t, signal, 'b');
+title('Raw Vibration Signal');
+xlabel('Time');
+ylabel('Amplitude');
+grid on;
+
+% Compute statistical features
+varValues = var(numericalValues);
+skewnessValues = skewness(numericalValues);
+kurtosisValues = kurtosis(numericalValues);
+
+% Plot histograms
+figure;
+subplot(3,1,1);
+histogram(varValues, 20, 'FaceColor', 'r');
+title('Variance Distribution');
+xlabel('Variance'); ylabel('Frequency');
+grid on;
+
+subplot(3,1,2);
+histogram(skewnessValues, 20, 'FaceColor', 'g');
+title('Skewness Distribution');
+xlabel('Skewness'); ylabel('Frequency');
+grid on;
+
+subplot(3,1,3);
+histogram(kurtosisValues, 20, 'FaceColor', 'b');
+title('Kurtosis Distribution');
+xlabel('Kurtosis'); ylabel('Frequency');
+grid on;
+
